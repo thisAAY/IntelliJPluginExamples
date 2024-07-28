@@ -1,0 +1,17 @@
+[versions]
+kotlin = "1.9.21"
+intellijPlugin = "1.17.0"
+intellijBuild = "2023.1.1.26"
+intellijTarget = "AI"
+intellijSince = "222"
+intellijUntil = "232.*"
+
+
+[libraries]
+
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+intellij = { id = "org.jetbrains.intellij", version.ref = "intellijPlugin" }
+intellij-kotlin = { id = "org.jetbrains.kotlin" }
+
