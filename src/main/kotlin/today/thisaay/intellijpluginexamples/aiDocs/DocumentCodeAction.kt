@@ -19,12 +19,8 @@ class DocumentCodeAction : AnAction(
 
     override fun actionPerformed(e: AnActionEvent) {
         val element = e.getData(CommonDataKeys.PSI_ELEMENT) ?: return
-        try {
-            e.project?.service<DocumentCodeService>()?.apply {
-                writeDocs(element)
-            }
-        }catch (t: Throwable){
-            println(t)
+        e.project?.service<DocumentCodeService>()?.apply {
+            writeDocs(element)
         }
     }
 
