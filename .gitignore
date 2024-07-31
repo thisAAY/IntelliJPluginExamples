@@ -84,4 +84,7 @@ bin/
 
 .idea/
 
-.kotlin/sessions/
+.kotlin/
+
+.intellijPlatform/
+
