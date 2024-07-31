@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtPsiFactory
-import today.thisaay.intellijpluginexamples.gemini.GeminiApi
+import today.thisaay.intellijpluginexamples.ai.GeminiService
 
 @Service(Service.Level.PROJECT)
 class DocumentCodeService(
@@ -24,7 +24,7 @@ class DocumentCodeService(
 
 
             val response =
-                GeminiApi.generateContent(
+                GeminiService.generateContent(
                     """
                         Write a kDoc comments for this kotlin code, respond only with documentation in plain text without the markdown formatters
                         \n $elementBody
