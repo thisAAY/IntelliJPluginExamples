@@ -1,51 +1,54 @@
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.8.21"
-    id("org.jetbrains.intellij") version "1.13.3"
+    id("version-catalog")
+    kotlin("plugin.serialization") version "2.0.0"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.intellij)
 }
 
 group = "today.thisaay"
 version = "1.0-SNAPSHOT"
 
 repositories {
+    google()
     mavenCentral()
-}
-
-intellij {
-
-    version.set(libs.versions.intellijBuild)
-    type.set(libs.versions.intellijTarget) // Target IDE Platform
-
-    plugins.set(
-        listOf(
-            libs.plugins.intellij.kotlin.get().pluginId,
-        )
-    )
-}
-
-tasks {
-    // Set the JVM compatibility versions
-    withType<JavaCompile> {
-        sourceCompatibility = "17"
-        targetCompatibility = "17"
-    }
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
-    }
-
-    patchPluginXml {
-        sinceBuild.set(libs.versions.intellijSince)
-        untilBuild.set(libs.versions.intellijUntil)
-    }
-
-    signPlugin {
-        certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-        privateKey.set(System.getenv("PRIVATE_KEY"))
-        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
-    }
-
-    publishPlugin {
-        token.set(System.getenv("PUBLISH_TOKEN"))
+    intellijPlatform {
+        defaultRepositories()
+        intellijDependencies()
     }
 }
 
+intellijPlatform {
+    buildSearchableOptions = false
+    instrumentCode = true
+    projectName = project.name
+    autoReload = true
+
+    pluginConfiguration {
+        ideaVersion {
+            sinceBuild = "241"
+            untilBuild = "241.*"
+        }
+    }
+}
+
+dependencies {
+
+    intellijPlatform {
+        instrumentationTools()
+        androidStudio("2024.1.1.12")
+        bundledPlugins("org.jetbrains.kotlin","com.intellij.java")
+    }
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
+    implementation("io.ktor:ktor-client-core:2.3.12"){
+        exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-core")
+        exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-jdk8")
+    }
+    implementation("io.ktor:ktor-client-okhttp:2.3.12")
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
+
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.12")
+
+    implementation("ch.qos.logback:logback-classic:1.5.6")
+}
