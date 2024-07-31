@@ -88,3 +88,5 @@ bin/
 
 .intellijPlatform/
 
+
+local.properties
