@@ -32,6 +32,10 @@ intellijPlatform {
     }
 }
 
+configurations.all {
+    exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-core")
+}
+
 dependencies {
 
     intellijPlatform {
@@ -41,10 +45,7 @@ dependencies {
     }
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
-    implementation("io.ktor:ktor-client-core:2.3.12"){
-        exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-core")
-        exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-jdk8")
-    }
+    implementation("io.ktor:ktor-client-core:2.3.12")
     implementation("io.ktor:ktor-client-okhttp:2.3.12")
     implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
 
