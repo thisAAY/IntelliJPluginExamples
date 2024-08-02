@@ -25,13 +25,20 @@
 
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
-    <extensions defaultExtensionNs="com.intellij"/>
+    <extensions defaultExtensionNs="com.intellij">
 
-    
+        <intentionAction>
+            <className>today.thisaay.intellijpluginexamples.suggestNames.SuggestBetterNamesIntention</className>
+            <language>kotlin</language>
+        </intentionAction>
+    </extensions>
+
+
     <actions>
         <action id="today.thisaay.intellijpluginexamples.aiDocs.DocumentCodeAction"
                 class="today.thisaay.intellijpluginexamples.aiDocs.DocumentCodeAction" text="Document this code">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
     </actions>
+
 </idea-plugin>
