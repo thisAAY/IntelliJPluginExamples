@@ -1,6 +1,7 @@
 package today.thisaay.intellijpluginexamples.utils
 
 fun getApiKey(): String {
-    val env = System.getenv()
-    return env.get("GEMINI_API_KEY")!!
+    return requireNotNull(System.getenv()["GEMINI_API_KEY"]) {
+        "GEMINI_API_KEY much be in env variables"
+    }
 }

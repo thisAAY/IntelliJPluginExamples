@@ -1,5 +1,6 @@
 package today.thisaay.intellijpluginexamples.ai
 
+import com.intellij.openapi.components.Service
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.okhttp.*
@@ -33,8 +34,10 @@ data class GenerateContentResponse(val error: Error? = null, val candidates: Lis
 @Serializable
 data class GenerateContentRequest(val contents: Content)
 
-object GeminiService {
-    private const val BASE_URL = " https://generativelanguage.googleapis.com/v1beta/models"
+private const val BASE_URL = " https://generativelanguage.googleapis.com/v1beta/models"
+
+@Service
+class GeminiService {
     private val apiKey = getApiKey()
 
     @OptIn(ExperimentalSerializationApi::class)
