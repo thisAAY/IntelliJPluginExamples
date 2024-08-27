@@ -8,7 +8,7 @@ import com.intellij.psi.PsiFile
 import org.jetbrains.kotlin.psi.KtProperty
 
 class SuggestBetterNamesIntention : IntentionAction {
-    override fun startInWriteAction() = true
+    override fun startInWriteAction() = false
 
     override fun getFamilyName() = "Example plugins"
 

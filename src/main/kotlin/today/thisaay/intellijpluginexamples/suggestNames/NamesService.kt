@@ -1,5 +1,6 @@
 package today.thisaay.intellijpluginexamples.suggestNames
 
+import com.intellij.openapi.application.EDT
 import com.intellij.openapi.application.readAction
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
@@ -7,7 +8,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.refactoring.rename.RenameProcessor
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jetbrains.kotlin.psi.KtProperty
 import today.thisaay.intellijpluginexamples.ai.GeminiService
 
@@ -33,18 +36,17 @@ class NamesService(
             val names = response.candidates?.first()?.content?.parts?.first()?.text
                 ?.trimIndent()?.split(",")?.map { it.trimIndent() }?.toTypedArray() ?: return@launch
 
-            val selectedName = Messages.showEditableChooseDialog(
-                "Select a name for variable $name:",
-                "Select Name",
-                Messages.getQuestionIcon(),
-                names,
-                names[0],
-                null,
-            ) ?: return@launch
-
-
-            RenameProcessor(project, element, selectedName, false, false).run()
-
+            withContext(Dispatchers.EDT) {
+                val selectedName = Messages.showEditableChooseDialog(
+                    "Select a name for variable $name:",
+                    "Select Name",
+                    Messages.getQuestionIcon(),
+                    names,
+                    names[0],
+                    null,
+                ) ?: return@withContext
+                RenameProcessor(project, element, selectedName, false, false).run()
+            }
         }
     }
 
